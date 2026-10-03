@@ -1,0 +1,19 @@
+# secrets
+.env
+*.env
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# models & big data (never commit these)
+*.pt
+*.bin
+*.safetensors
+*.gguf
+data/raw/
+
+# mac
+.DS_Store
