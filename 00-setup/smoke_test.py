@@ -6,9 +6,10 @@ Run from inside 01-oct-llm-foundations/:
 
 import os
 
-from dotenv import load_dotenv
+from dotenv import find_dotenv, load_dotenv
 
-load_dotenv()
+# usecwd=True: look for .env in the folder you run from, not the script's folder
+load_dotenv(find_dotenv(usecwd=True))
 
 PROMPT = "In one sentence, what is a token in an LLM?"
 
@@ -23,6 +24,7 @@ def test_ollama():
 
 def test_gemini():
     from google import genai
+    from google.genai import types
 
     key = os.getenv("GEMINI_API_KEY")
     if not key:
@@ -30,7 +32,11 @@ def test_gemini():
         return
     model = os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite")
     client = genai.Client(api_key=key)
-    resp = client.models.generate_content(model=model, contents=PROMPT)
+    # AFC off: in week 3 you'll write the tool-calling loop yourself
+    config = types.GenerateContentConfig(
+        automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True)
+    )
+    resp = client.models.generate_content(model=model, contents=PROMPT, config=config)
     print(f"[OK] Gemini ({model}): {resp.text.strip()}\n")
 
 

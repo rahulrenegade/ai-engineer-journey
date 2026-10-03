@@ -120,6 +120,7 @@ If it asks for a password, use a **Personal Access Token** (GitHub → Settings 
 ```bash
 cd 01-oct-llm-foundations
 uv init --bare --python 3.12           # creates pyproject.toml only
+uv python pin 3.12                     # writes .python-version so uv always uses 3.12
 uv add ollama google-genai pydantic python-dotenv
 cp ../00-setup/.env.example .env       # then open .env and paste your Gemini key
 ```

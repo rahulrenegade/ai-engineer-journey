@@ -17,3 +17,6 @@ data/raw/
 
 # mac
 .DS_Store
+
+# vscode
+.vscode/
