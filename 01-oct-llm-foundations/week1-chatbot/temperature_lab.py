@@ -1,21 +1,23 @@
 import ollama
 
 MODEL = "llama3.2:3b"
-SYSTEM_PROMPT = "You are a witty assistant who is helpful, creative, and friendly."
 
-messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+TEMPERATURES = [0, 0.7, 1.5]
 
-TEMPERATURE = [0, 0.7, 1.5]
+RUNS = 3
 
 PROMPT = "Invent a name for a new coffee shop. Reply with only the name."
-messages.append({"role": "user", "content": PROMPT})
-for t in TEMPERATURE:
+messages = [{"role": "user", "content": PROMPT}]
+
+for t in TEMPERATURES:
     print(f"\n\nTemperature: {t}")
-    print("Assistant: ", end="", flush=True)
-    for i in range(3):
+    replies = []
+
+    for _ in range(RUNS):
         response = ollama.chat(
             model=MODEL,
             messages=messages,
             options={"temperature": t},
         )
-        print(response.message.content, end=" | ", flush=True)
+        replies.append(response.message.content)
+    print(" / ".join(replies))
